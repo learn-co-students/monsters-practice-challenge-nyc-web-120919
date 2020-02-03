@@ -43,24 +43,23 @@ function addListenersForPageButtons() {
     const rightBtn = document.getElementById('forward');
 
     rightBtn.addEventListener('click', function(event){
-        if (page < 21) {
-            page = page + 1;
-            getFiftyMonsters();
-        }
-        else {
-            alert('Aint no monsters here!')
-        }
+        navigationButtonClicked(1);
     })
 
     leftBtn.addEventListener('click', function(event){
-        if (page > 1) {
-            page = page - 1;
-            getFiftyMonsters();
-        }
-        else {
-            alert('Aint no monsters here!')
-        }
+        navigationButtonClicked(-1);
     })
+
+}
+
+function navigationButtonClicked(index) {
+    if (page > 1 && page < 21) {
+        page += index;
+        getFiftyMonsters();
+    }
+    else {
+        alert('Aint no monsters here!')
+    }
 }
 
 function renderCreateMonsterForm() {
@@ -99,10 +98,7 @@ function createMonster(form) {
       })
       .then(response => response.json())
       .then(monster => {
-        // PESSIMISTIC RENDERING <= rendering only after getting confirmation from 
-        // the DB that the record was created
         if (page === 21) {
-            console.log('something')
             getFiftyMonsters();
         }
         
